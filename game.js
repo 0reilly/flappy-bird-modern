@@ -4,6 +4,23 @@ const gameOverScreen = document.getElementById('game-over');
 const finalScore = document.getElementById('final-score');
 const restartButton = document.getElementById('restart-button');
 
+// Sound effects
+const sounds = {
+    flap: new Howl({
+        src: ['sounds/flap.mp3']
+    }),
+    score: new Howl({
+        src: ['sounds/score.mp3']
+    }),
+    gameOver: new Howl({
+        src: ['sounds/game-over.mp3']
+    }),
+    background: new Howl({
+        src: ['sounds/background.mp3'],
+        loop: true
+    })
+};
+
 // Set canvas dimensions
 canvas.width = 400;
 canvas.height = 600;
@@ -23,10 +40,14 @@ let pipes = [];
 let score = 0;
 let gameOver = false;
 
+// Start background music
+sounds.background.play();
+
 // Event listeners
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && !gameOver) {
         bird.velocity = bird.jump;
+        sounds.flap.play();
     }
 });
 
@@ -42,6 +63,7 @@ function resetGame() {
     score = 0;
     gameOver = false;
     gameOverScreen.style.display = 'none';
+    sounds.background.play();
     requestAnimationFrame(gameLoop);
 }
 
@@ -50,6 +72,8 @@ function gameLoop() {
     if (gameOver) {
         finalScore.textContent = score;
         gameOverScreen.style.display = 'block';
+        sounds.background.stop();
+        sounds.gameOver.play();
         return;
     }
 
