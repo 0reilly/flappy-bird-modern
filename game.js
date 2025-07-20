@@ -140,4 +140,4 @@ function gameLoop() {
 
 // Start the game
 let frames = 0;
-gameLoop();
+gameLoop();// Force GitHub Pages rebuild - Sun Jul 20 19:57:26 EDT 2025
