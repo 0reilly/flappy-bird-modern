@@ -1,5 +1,8 @@
 const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
+const gameOverScreen = document.getElementById('game-over');
+const finalScore = document.getElementById('final-score');
+const restartButton = document.getElementById('restart-button');
 
 // Set canvas dimensions
 canvas.width = 400;
@@ -27,9 +30,28 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+restartButton.addEventListener('click', () => {
+    resetGame();
+});
+
+// Reset game
+function resetGame() {
+    bird.y = canvas.height / 2;
+    bird.velocity = 0;
+    pipes = [];
+    score = 0;
+    gameOver = false;
+    gameOverScreen.style.display = 'none';
+    requestAnimationFrame(gameLoop);
+}
+
 // Game loop
 function gameLoop() {
-    if (gameOver) return;
+    if (gameOver) {
+        finalScore.textContent = score;
+        gameOverScreen.style.display = 'block';
+        return;
+    }
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
