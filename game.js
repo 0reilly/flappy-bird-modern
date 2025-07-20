@@ -96,11 +96,10 @@ function gameLoop() {
     // Generate pipes with a consistent gap
     if (frames % 100 === 0) {
         const gap = 150; // Gap between top and bottom pipes
-        const topPipeHeight = Math.random() * (canvas.height - gap - 100) + 50; // Random height for top pipe
+        const pipeHeight = Math.random() * (canvas.height - gap - 100) + 50; // Random height for top pipe
         pipes.push({
             x: canvas.width,
-            topHeight: topPipeHeight,
-            bottomY: topPipeHeight + gap, // Y position where bottom pipe starts
+            height: pipeHeight,
             width: 50,
             passed: false
         });
@@ -110,9 +109,9 @@ function gameLoop() {
     ctx.fillStyle = '#228B22';
     pipes.forEach((pipe, index) => {
         // Top pipe
-        ctx.fillRect(pipe.x, 0, pipe.width, pipe.topHeight);
-        // Bottom pipe - starts at bottomY and goes to bottom of canvas
-        ctx.fillRect(pipe.x, pipe.bottomY, pipe.width, canvas.height - pipe.bottomY);
+        ctx.fillRect(pipe.x, 0, pipe.width, pipe.height);
+        // Bottom pipe
+        ctx.fillRect(pipe.x, pipe.height + 150, pipe.width, canvas.height - pipe.height - 150);
 
         pipe.x -= 2;
 
@@ -120,7 +119,7 @@ function gameLoop() {
         if (
             bird.x + bird.width > pipe.x &&
             bird.x < pipe.x + pipe.width &&
-            (bird.y < pipe.topHeight || bird.y + bird.height > pipe.bottomY)
+            (bird.y < pipe.height || bird.y + bird.height > pipe.height + 150)
         ) {
             gameOver = true;
         }
