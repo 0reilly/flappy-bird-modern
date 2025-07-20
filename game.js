@@ -93,11 +93,13 @@ function gameLoop() {
         gameOver = true;
     }
 
-    // Generate pipes
+    // Generate pipes with a consistent gap
     if (frames % 100 === 0) {
+        const gap = 150; // Gap between top and bottom pipes
+        const pipeHeight = Math.random() * (canvas.height - gap - 100) + 50; // Random height for top pipe
         pipes.push({
             x: canvas.width,
-            height: Math.random() * (canvas.height - 200) + 50,
+            height: pipeHeight,
             width: 50,
             passed: false
         });
@@ -106,7 +108,9 @@ function gameLoop() {
     // Draw and update pipes
     ctx.fillStyle = '#228B22';
     pipes.forEach((pipe, index) => {
+        // Top pipe
         ctx.fillRect(pipe.x, 0, pipe.width, pipe.height);
+        // Bottom pipe
         ctx.fillRect(pipe.x, pipe.height + 150, pipe.width, canvas.height - pipe.height - 150);
 
         pipe.x -= 2;
