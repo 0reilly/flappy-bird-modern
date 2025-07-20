@@ -42,7 +42,7 @@ function gameLoop() {
     bird.velocity += bird.gravity;
     bird.y += bird.velocity;
 
-    // Check for collisions
+    // Check for collisions with ground or ceiling
     if (bird.y + bird.height > canvas.height || bird.y < 0) {
         gameOver = true;
     }
